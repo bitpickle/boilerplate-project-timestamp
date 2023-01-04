@@ -14,7 +14,7 @@ const get = (req, res) => {
         'X'
     ];
 
-    if (!moment(date, validFormats, true)) {
+    if (!moment(date, validFormats, true).isValid()) {
         return res.status(429).json({
             error: 'Invalid Date'
         });
