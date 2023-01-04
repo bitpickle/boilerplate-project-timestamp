@@ -1,20 +1,23 @@
 var moment = require('moment');
 
 const getNow = (req, res) => {
+    let date = new Date();
     return res.json({
-        unix: new Date().getTime(),
-        utc: new Date().toUTCString()
+        unix: date.getTime(),
+        utc: date.toUTCString()
     });
 }
 
 const get = (req, res) => {
-    let date = !req.params.date.includes('-') ? parseInt(req.params.date) : req.params.date;
-    let validFormats = [
-        moment.ISO_8601,
-        'X'
-    ];
+    let dateParam = req.params.date;
 
-    if (!moment(date, validFormats, true).isValid()) {
+    if (dateParam.match(/\d{5,}/)) {
+        dateParam = +dateParam;
+    }
+    
+    let date = new Date(dateParam);
+
+    if (date.toUTCString() === 'Invalid Date') {
         return res.status(429).json({
             error: 'Invalid Date'
         });
