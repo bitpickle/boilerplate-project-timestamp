@@ -1,5 +1,3 @@
-var moment = require('moment');
-
 const getNow = (req, res) => {
     let date = new Date();
     return res.json({
